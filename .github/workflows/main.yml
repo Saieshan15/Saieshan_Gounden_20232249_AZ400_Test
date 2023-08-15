@@ -1,0 +1,73 @@
+trigger:
+
+- main
+
+ 
+
+pool:
+
+  vmImage: ubuntu-latest
+
+ 
+
+stages:
+
+- stage: Build
+
+  jobs:
+
+  - job: BuildJob
+
+    steps:
+
+    - script: echo 'Compiling source code and generating artifacts...'
+
+      displayName: 'Build'
+
+    - task: PublishBuildArtifacts@1
+
+      inputs:
+
+        pathtoPublish: '$(Build.SourcesDirectory)/artifacts'
+
+        artifactName: 'build-artifacts'
+
+      displayName: 'Publish Build Artifacts'
+
+ 
+
+- stage: Test
+
+  jobs:
+
+  - job: TestJob
+
+    steps:
+
+    - script: echo 'Running unit tests...'
+
+      displayName: 'Run Unit Tests'
+
+    - script: echo 'Running code quality checks...'
+
+      displayName: 'Code Quality Checks'
+
+    displayName: 'Test'
+
+ 
+
+- stage: Deploy
+
+  jobs:
+
+  - job: DeployJob
+
+    steps:
+
+    - script: |
+
+        echo Add deployment steps here.
+
+        echo This is where you would deploy to the staging environment.
+
+      displayName: 'Deploy to Staging'
